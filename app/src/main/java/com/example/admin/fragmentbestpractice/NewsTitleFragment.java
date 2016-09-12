@@ -1,5 +1,6 @@
 package com.example.admin.fragmentbestpractice;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -25,10 +26,10 @@ public class NewsTitleFragment extends Fragment implements AdapterView.OnItemCli
     private boolean isTwoPane;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         newsList = getNews();
-        adapter = new NewsAdapter(context, R.layout.news_item, newsList);
+        adapter = new NewsAdapter(activity, R.layout.news_item, newsList);
 
     }
 
@@ -40,6 +41,20 @@ public class NewsTitleFragment extends Fragment implements AdapterView.OnItemCli
         newsTitleListView.setAdapter(adapter);
         newsTitleListView.setOnItemClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getActivity().findViewById(R.id.news_content_layout) != null)
+        {
+            isTwoPane = true;
+
+        }
+        else
+        {
+            isTwoPane = false;
+        }
     }
 
     @Override
@@ -59,17 +74,15 @@ public class NewsTitleFragment extends Fragment implements AdapterView.OnItemCli
 
     public List<News> getNews() {
 
-        List<News> newList = new ArrayList<News>();
+        List<News> newsList = new ArrayList<News>();
         News news1 = new News();
         news1.setTitle("Title1 XXXXXXXXXXXXXXXXXXXXXXXXXXX");
         news1.setContent("Content!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
+        newsList.add(news1);
         News news2 = new News();
-        news1.setTitle("Title2 XXXXXXXXXXXXXXXXXXXXXXXXXXX");
-        news1.setContent("Content2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-
-        newList.add(news2);
-
+        news2.setTitle("Title2 XXXXXXXXXXXXXXXXXXXXXXXXXXX");
+        news2.setContent("Content2!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        newsList.add(news2);
         return newsList;
     }
 
